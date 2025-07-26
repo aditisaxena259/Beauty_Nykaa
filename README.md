@@ -1,73 +1,128 @@
-# Welcome to your Lovable project
+# 💄 AI-Powered Beauty Assistant
 
-## Project info
+An end-to-end intelligent product recommendation system built for beauty retail. This system integrates **Neo4j Knowledge Graphs**, **LLM-powered chatbots**, **inventory-aware recommendations**, **contextual follow-up questions**, and **product comparison capabilities** to create a personalized, conversational shopping experience.
 
-**URL**: https://lovable.dev/projects/d9e337fc-5218-4593-ab0e-c762de15de41
+---
 
-## How can I edit this code?
+## 🚀 Overview
 
-There are several ways of editing your application.
+This project simulates a real-world digital assistant for platforms like **Nykaa**, focusing on helping users find the right products with minimal effort. It supports:
 
-**Use Lovable**
+- 💬 LLM-powered query understanding
+- 🧠 Knowledge Graph-based product retrieval
+- 🏪 Inventory checks for availability
+- 🔁 Alternative suggestions
+- ⚖️ Intelligent product comparisons
+- 📈 Follow-up question generation for user preference refinement
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/d9e337fc-5218-4593-ab0e-c762de15de41) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🧱 Architecture
 
-**Use your preferred IDE**
+User Query → Query Classifier → Category & Feature Extractor
+↓ ↘
+Chatbot UI → Neo4j Knowledge Graph ← Inventory Checker
+↘
+Follow-up Question Generator
+↘
+Final Recommendation Output
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🧠 Knowledge Graph
 
-Follow these steps:
+We constructed a domain-specific **knowledge graph using Neo4j** from a real-world dataset (13k+ products, 150+ attributes). Key features:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- Nodes for **Products**, **Brands**, **Categories**, **Shades**, **Benefits**, etc.
+- Edges representing relationships such as `HAS_BENEFIT`, `BELONGS_TO`, `HAS_COLOR`, etc.
+- Enables complex queries like:
+  - _"Find all waterproof eyeliners under ₹500 from Maybelline"_
+  - _"Suggest alternatives with same finish but in red shade"_
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🤖 Chatbot with LLMs
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+A conversational assistant using **Amazon Bedrock (LLaMA 3)** + fine-tuned prompt logic:
 
-**Edit a file directly in GitHub**
+- Classifies queries: `product_search`, `inventory_check`, `comparison`, `alternatives`, etc.
+- Auto-generates contextual questions:
+  - _"What finish are you looking for in a lip gloss?"_
+  - _"Do you prefer long-lasting or quick-dry options?"_
+- Generates personalized responses using retrieved graph data
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## 🛒 Inventory Check Module
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Before final recommendation:
 
-## What technologies are used for this project?
+- Runs an **inventory availability check** on products
+- If the item is out of stock:
+  - Offers **similar in-stock alternatives**
+  - Adds a subtle **upselling nudge** based on brand/benefit affinity
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🔁 Follow-Up Question Generator
 
-## How can I deploy this project?
+To reduce choice overload, we generate up to **4 follow-up questions** per category based on:
 
-Simply open [Lovable](https://lovable.dev/projects/d9e337fc-5218-4593-ab0e-c762de15de41) and click on Share -> Publish.
+- Top extracted product attributes (e.g., color, finish, benefit, composition)
+- Real-time pruning based on answered questions
+- Allows **user-driven narrowing down** before showing products
 
-## Can I connect a custom domain to my Lovable project?
+Example:
+> _"What color are you looking for in your eyeliner?"_  
+> _"Would you prefer a glossy or matte finish?"_
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## ⚖️ Product Comparison Logic
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Users can compare two or more products using:
+
+- Attribute-level breakdown: price, brand, finish, color, benefits
+- Highlights differences and similarities
+- Suggests **better-rated or better-priced** options
+
+---
+
+## 📚 Tech Stack
+
+| Layer       | Tool/Framework |
+|-------------|----------------|
+| Backend     | FastAPI        |
+| LLM Layer   | Amazon Bedrock (LLaMA 3) |
+| Database    | Neo4j (Knowledge Graph) |
+| Frontend    | React + TailwindCSS |
+| Deployment  | Docker, Ngrok for tunneling |
+| NLP         | spaCy, Transformers |
+| Scripting   | Python (Pandas) |
+
+---
+
+## 🌟 Highlights
+
+- ✅ Built scalable product graphs from noisy e-commerce metadata
+- ✅ Integrated **graph search + LLM** in real-time
+- ✅ Enabled dynamic follow-up generation and UX
+- ✅ Mimics real Nykaa salesperson flow via chatbot logic
+- ✅ Structured for **multi-category** and **multi-feature** expansion
+
+---
+
+## 📦 Future Enhancements
+
+- Add **sentiment-based tuning** for responses
+- Implement **user memory / preference persistence**
+- Add **voice assistant integration**
+- Build dashboard for real-time analytics on queries & conversions
+
+
+
+
+
+---
+
+
